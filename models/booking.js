@@ -44,5 +44,34 @@ const bookingSchema = new mongoose.Schema({
   },
 })
 
+bookingSchema.pre("save", async function (next) {
+  var checkIn = new Date(this.checkInDate)
+  const checkInTimeStamp = new Date(
+    Date.UTC(
+      checkIn.getFullYear(),
+      checkIn.getMonth(),
+      checkIn.getDate(),
+      checkIn.getHours(),
+      checkIn.getMinutes(),
+      checkIn.getSeconds(),
+      checkIn.getMilliseconds()
+    )
+  )
+  var checkOut = new Date(this.checkOutDate)
+  const checkOutTimeStamp = new Date(
+    Date.UTC(
+      checkOut.getFullYear(),
+      checkOut.getMonth(),
+      checkOut.getDate(),
+      checkOut.getHours(),
+      checkOut.getMinutes(),
+      checkOut.getSeconds(),
+      checkOut.getMilliseconds()
+    )
+  )
+  this.checkInDate = checkInTimeStamp
+  this.checkOutDate = checkOutTimeStamp
+})
+
 export default mongoose.models.Booking ||
   mongoose.model("Booking", bookingSchema)

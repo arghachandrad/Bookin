@@ -18,17 +18,24 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { useRouter } from "next/router"
 import { CallWithOutAuth } from "../../utils/apiActions"
-import { checkRoomBookingAvailability } from "../../redux/actions/booking"
+import {
+  checkRoomBookingAvailability,
+  getBookedDates,
+} from "../../redux/actions/booking"
 
 const RoomDetails = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { room, error } = useSelector((state) => state.room)
   const { user } = useSelector((state) => state.auth)
-  const { isBookingAvailable, loading } = useSelector((state) => state.booking)
+  const { isBookingAvailable, loading, bookedDates } = useSelector(
+    (state) => state.booking
+  )
   const [checkInDate, setCheckInDate] = useState()
   const [checkOutDate, setCheckOutDate] = useState()
   const [daysOfStay, setDaysOfStay] = useState()
+
+  const excludedDates = bookedDates.map((date) => new Date(date))
 
   useEffect(() => {
     if (error) {
@@ -36,6 +43,10 @@ const RoomDetails = () => {
       showAndClearError(error)
     }
   }, [error])
+
+  useEffect(() => {
+    dispatch(getBookedDates(router.query.id))
+  }, [dispatch, router.query.id])
 
   const handleDateChange = (dates) => {
     const [start, end] = dates
@@ -175,6 +186,7 @@ const RoomDetails = () => {
                     onChange={handleDateChange}
                     startDate={checkInDate}
                     endDate={checkOutDate}
+                    excludeDates={excludedDates}
                     selectsRange
                     minDate={new Date()}
                     inline
