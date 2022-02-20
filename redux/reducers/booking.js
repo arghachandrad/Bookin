@@ -4,6 +4,8 @@ import {
   CHECK_BOOKING_AVAILABILITY_FAIL,
   GET_BOOKED_DATES_SUCCESS,
   GET_BOOKED_DATES_FAIL,
+  GET_MY_BOOKINGS_SUCCESS,
+  GET_MY_BOOKINGS_FAIL,
 } from "../constants/booking"
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   loading: false,
   success: false,
   bookedDates: [],
+  bookings: [],
 }
 
 // All Rooms Reducer
@@ -42,6 +45,17 @@ export const bookingReducer = (state = initialState, action) => {
         bookedDates: action.payload.bookedDates,
       }
     case GET_BOOKED_DATES_FAIL:
+      return {
+        ...state,
+        success: false,
+      }
+    case GET_MY_BOOKINGS_SUCCESS:
+      return {
+        ...state,
+        success: true,
+        bookings: action.payload.bookings,
+      }
+    case GET_MY_BOOKINGS_FAIL:
       return {
         ...state,
         success: false,

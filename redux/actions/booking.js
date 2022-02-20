@@ -6,6 +6,8 @@ import {
   CHECK_BOOKING_AVAILABILITY_FAIL,
   GET_BOOKED_DATES_SUCCESS,
   GET_BOOKED_DATES_FAIL,
+  GET_MY_BOOKINGS_SUCCESS,
+  GET_MY_BOOKINGS_FAIL,
 } from "../constants/booking"
 
 // Get all rooms
@@ -31,5 +33,17 @@ export const getBookedDates = (roomId) => async (dispatch) => {
     dispatch({ type: GET_BOOKED_DATES_SUCCESS, payload: data })
   } else {
     dispatch({ type: GET_BOOKED_DATES_FAIL, payload: data })
+  }
+}
+
+// Get booked dates
+export const getMyBookings = () => async (dispatch) => {
+  let link = `/bookings/me`
+
+  const { status, data } = await CallWithOutAuth("GET", link, {})
+  if (status) {
+    dispatch({ type: GET_MY_BOOKINGS_SUCCESS, payload: data })
+  } else {
+    dispatch({ type: GET_MY_BOOKINGS_FAIL, payload: data })
   }
 }
