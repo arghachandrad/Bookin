@@ -57,7 +57,7 @@ const MyBookings = () => {
     dispatch(getMyBookings())
   }, [dispatch])
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ mt: 5 }}>
       <div style={{ display: "flex", minHeight: 650 }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
@@ -65,6 +65,7 @@ const MyBookings = () => {
             columns={columns}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20]}
             pagination
           />
         </div>

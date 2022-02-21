@@ -1,9 +1,10 @@
 import mongoose from "mongoose"
+import Room from "../models/room"
 
 const bookingSchema = new mongoose.Schema({
   room: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Room",
+    ref: Room.modelName,
     required: true,
   },
   user: {

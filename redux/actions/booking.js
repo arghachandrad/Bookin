@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { CallWithAuth, CallWithOutAuth } from "../../utils/apiActions"
 
 import {
@@ -8,6 +9,8 @@ import {
   GET_BOOKED_DATES_FAIL,
   GET_MY_BOOKINGS_SUCCESS,
   GET_MY_BOOKINGS_FAIL,
+  GET_BOOKING_DETAILS_SUCCESS,
+  GET_BOOKING_DETAILS_FAIL,
 } from "../constants/booking"
 
 // Get all rooms
@@ -45,5 +48,18 @@ export const getMyBookings = () => async (dispatch) => {
     dispatch({ type: GET_MY_BOOKINGS_SUCCESS, payload: data })
   } else {
     dispatch({ type: GET_MY_BOOKINGS_FAIL, payload: data })
+  }
+}
+
+// Get booked dates
+export const getBookingDetails = (id) => async (dispatch) => {
+  let link = `/bookings/${id}`
+
+  const { status, data } = await CallWithOutAuth("GET", link, {})
+  if (status) {
+    dispatch({ type: GET_BOOKING_DETAILS_SUCCESS, payload: data })
+  } else {
+    toast.error(data)
+    dispatch({ type: GET_BOOKING_DETAILS_FAIL, payload: data })
   }
 }
