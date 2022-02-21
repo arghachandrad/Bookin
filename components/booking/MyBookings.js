@@ -1,6 +1,6 @@
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMyBookings } from "../../redux/actions/booking"
 import VisibilityIcon from "@mui/icons-material/Visibility"
@@ -11,6 +11,7 @@ const MyBookings = () => {
   const dispatch = useDispatch()
   const { bookings } = useSelector((state) => state.booking)
   console.log("bookings: ", bookings)
+  const [pageSize, setPageSize] = useState(10)
 
   const rows =
     bookings &&
@@ -57,9 +58,15 @@ const MyBookings = () => {
   }, [dispatch])
   return (
     <Container maxWidth="xl">
-      <div style={{ display: "flex", height: "100vh" }}>
+      <div style={{ display: "flex", minHeight: 650 }}>
         <div style={{ flexGrow: 1 }}>
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            pagination
+          />
         </div>
       </div>
     </Container>
