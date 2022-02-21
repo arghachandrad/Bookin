@@ -4,13 +4,11 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMyBookings } from "../../redux/actions/booking"
 import VisibilityIcon from "@mui/icons-material/Visibility"
-import { Box, Container, IconButton } from "@mui/material"
-import DownloadIcon from "@mui/icons-material/Download"
+import { Box, Container } from "@mui/material"
 
 const MyBookings = () => {
   const dispatch = useDispatch()
   const { bookings } = useSelector((state) => state.booking)
-  console.log("bookings: ", bookings)
   const [pageSize, setPageSize] = useState(10)
 
   const rows =
@@ -43,10 +41,6 @@ const MyBookings = () => {
                 <VisibilityIcon />
               </a>
             </Link>
-
-            <IconButton>
-              <DownloadIcon />
-            </IconButton>
           </Box>
         )
       },
