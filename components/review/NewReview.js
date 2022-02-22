@@ -1,7 +1,10 @@
 import { useRouter } from "next/router"
-import { forwardRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createNewReview } from "../../redux/actions/room"
+import {
+  checkReviewAvailability,
+  createNewReview,
+} from "../../redux/actions/room"
 import Container from "@mui/material/Container"
 import Button from "@mui/material/Button"
 import Dialog from "@mui/material/Dialog"
@@ -23,12 +26,18 @@ const Transition = forwardRef(function Transition(props, ref) {
 const NewReview = () => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const { room, error, loading, success } = useSelector((state) => state.room)
+  const { isReviewAvailable, loading } = useSelector((state) => state.room)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState("")
   const [open, setOpen] = useState(false)
 
   const { id } = router.query
+
+  useEffect(() => {
+    if (id !== undefined) {
+      dispatch(checkReviewAvailability(id))
+    }
+  }, [dispatch, id])
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -58,7 +67,11 @@ const NewReview = () => {
 
   return (
     <Container>
-      <LoadingButton variant="contained" onClick={handleClickOpen}>
+      <LoadingButton
+        variant="contained"
+        onClick={handleClickOpen}
+        disabled={!isReviewAvailable}
+      >
         Submit Your Review
       </LoadingButton>
       <Dialog
@@ -90,7 +103,11 @@ const NewReview = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <LoadingButton variant="contained" onClick={handleSubmit}>
+          <LoadingButton
+            variant="contained"
+            onClick={handleSubmit}
+            loading={loading}
+          >
             Submit
           </LoadingButton>
         </DialogActions>

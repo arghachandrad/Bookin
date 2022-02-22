@@ -7,6 +7,9 @@ import {
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
+  CHECK_REVIEW_AVAILABILITY_REQUEST,
+  CHECK_REVIEW_AVAILABILITY_SUCCESS,
+  CHECK_REVIEW_AVAILABILITY_FAIL,
 } from "../constants/room"
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   filteredRoomsCount: null,
   loading: false,
   success: false,
+  isReviewAvailable: false, //cannot create a review(if not booked the room)
 }
 
 // All Rooms Reducer
@@ -60,6 +64,24 @@ export const roomReducer = (state = initialState, action) => {
         success: true,
       }
     case NEW_REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+      }
+    case CHECK_REVIEW_AVAILABILITY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case CHECK_REVIEW_AVAILABILITY_SUCCESS:
+      console.log(action.payload)
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        isReviewAvailable: action.payload,
+      }
+    case CHECK_REVIEW_AVAILABILITY_FAIL:
       return {
         ...state,
         loading: false,

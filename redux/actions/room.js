@@ -10,6 +10,9 @@ import {
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
   NEW_REVIEW_REQUEST,
+  CHECK_REVIEW_AVAILABILITY_REQUEST,
+  CHECK_REVIEW_AVAILABILITY_SUCCESS,
+  CHECK_REVIEW_AVAILABILITY_FAIL,
 } from "../constants/room"
 
 // Get all rooms
@@ -35,6 +38,25 @@ export const getRoomDetails = (id) => async (dispatch) => {
     dispatch({ type: ROOM_DETAILS_SUCCESS, payload: data.room })
   } else {
     dispatch({ type: ROOM_DETAILS_FAIL, payload: data })
+  }
+}
+
+// Check is available for posting reviews
+export const checkReviewAvailability = (id) => async (dispatch) => {
+  dispatch({ type: CHECK_REVIEW_AVAILABILITY_REQUEST })
+  const { status, data } = await CallWithOutAuth(
+    "GET",
+    `/reviews/check_review_availability?roomId=${id}`,
+    {}
+  )
+  console.log(data)
+  if (status) {
+    dispatch({
+      type: CHECK_REVIEW_AVAILABILITY_SUCCESS,
+      payload: data.isReviewAvailable,
+    })
+  } else {
+    dispatch({ type: CHECK_REVIEW_AVAILABILITY_FAIL, payload: data })
   }
 }
 

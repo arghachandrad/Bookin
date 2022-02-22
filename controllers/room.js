@@ -1,5 +1,5 @@
 import Room from "../models/room"
-// import Booking from "../models/booking"
+import Booking from "../models/booking"
 
 // import cloudinary from "cloudinary"
 
@@ -177,6 +177,21 @@ const createRoomReview = catchAsyncErrors(async (req, res) => {
   })
 })
 
+// check Review Availability   =>   /api/reviews/check_review_availability
+const checkReviewAvailability = catchAsyncErrors(async (req, res) => {
+  const { roomId } = req.query
+
+  const bookings = await Booking.find({ user: req.user._id, room: roomId })
+
+  let isReviewAvailable = false
+  if (bookings.length > 0) isReviewAvailable = true
+
+  res.status(200).json({
+    success: true,
+    isReviewAvailable,
+  })
+})
+
 export {
   allRooms,
   newRoom,
@@ -184,4 +199,5 @@ export {
   updateRoom,
   deleteRoom,
   createRoomReview,
+  checkReviewAvailability,
 }
