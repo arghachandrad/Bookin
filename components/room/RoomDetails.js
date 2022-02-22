@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper"
 import Container from "@mui/material/Container"
 import Rating from "@mui/material/Rating"
 import Button from "@mui/material/Button"
+import LoadingButton from "@mui/lab/LoadingButton"
 import Box from "@mui/material/Box"
 import Alert from "@mui/material/Alert"
 import Head from "next/head"
@@ -22,6 +23,9 @@ import {
   checkRoomBookingAvailability,
   getBookedDates,
 } from "../../redux/actions/booking"
+import getStripe from "../../utils/getStripe"
+import axios from "axios"
+import { toast } from "react-toastify"
 
 const RoomDetails = () => {
   const router = useRouter()
@@ -34,6 +38,7 @@ const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState()
   const [checkOutDate, setCheckOutDate] = useState()
   const [daysOfStay, setDaysOfStay] = useState()
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   const excludedDates = bookedDates.map((date) => new Date(date))
 
@@ -89,6 +94,31 @@ const RoomDetails = () => {
     const response = await CallWithOutAuth("POST", "/bookings", bookingData)
 
     console.log(response)
+  }
+
+  const handleBookRoom = async (id, pricePerNight) => {
+    setPaymentLoading(true)
+    const amount = pricePerNight * daysOfStay
+
+    try {
+      const link = `${
+        process.env.NEXT_LOCAL_BASE_URL
+      }/checkout_session/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`
+
+      const { data } = await axios.get(link, { params: { amount } })
+      console.log("data: ", data)
+
+      const stripe = await getStripe()
+
+      // redirect to checkout
+      stripe.redirectToCheckout({ sessionId: data.session.id })
+
+      setPaymentLoading(false)
+    } catch (error) {
+      setPaymentLoading(false)
+      console.log(error)
+      toast.error(error.message)
+    }
   }
 
   return (
@@ -210,14 +240,17 @@ const RoomDetails = () => {
                     </Alert>
                   )}
                   {isBookingAvailable && user && (
-                    <Button
+                    <LoadingButton
+                      loading={paymentLoading}
                       sx={{ mt: 1 }}
                       fullWidth
                       variant="contained"
-                      onClick={handleCreateNewBooking}
+                      onClick={() =>
+                        handleBookRoom(room._id, room.pricePerNight)
+                      }
                     >
-                      Pay
-                    </Button>
+                      Pay - ${daysOfStay * room.pricePerNight}
+                    </LoadingButton>
                   )}
                 </Box>
               </Paper>
