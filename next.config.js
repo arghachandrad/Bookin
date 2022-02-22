@@ -18,6 +18,9 @@ module.exports = {
 
     STRIPE_SECRET_KEY:
       "sk_test_51KSNXgSHgux1UBX9VtvAuUyxmV0HVj5eES8tialLqC4UVkhAchiD9grVf2UxhbsGXf9LGqh015ztQxovZsA9TL8D00qpdrob6G",
+
+    STRIPE_WEBHOOK_SECRET:
+      "whsec_71de4da336489d2534fcd1204361e4ae1b748ca100691de490bc84a097785b6a",
   },
   images: {
     domains: ["images.unsplash.com", "res.cloudinary.com"],
