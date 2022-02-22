@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { CallWithAuth, CallWithOutAuth } from "../../utils/apiActions"
 
 import {
@@ -8,6 +9,7 @@ import {
   CLEAR_ERRORS,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
+  NEW_REVIEW_REQUEST,
 } from "../constants/room"
 
 // Get all rooms
@@ -41,10 +43,11 @@ export const createNewReview = (formData) => async (dispatch) => {
   dispatch({ type: NEW_REVIEW_REQUEST })
   const { status, data } = await CallWithOutAuth("PUT", `/reviews`, formData)
   if (status) {
-    console.log("review created success: ", data)
+    toast.success("Review added successfully")
     dispatch({ type: NEW_REVIEW_SUCCESS })
+    dispatch(getRoomDetails(formData.roomId))
   } else {
-    console.log("review created error: ", data)
+    toast.error(data)
     dispatch({ type: NEW_REVIEW_FAIL, payload: data })
   }
 }

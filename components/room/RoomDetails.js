@@ -26,6 +26,8 @@ import {
 import getStripe from "../../utils/getStripe"
 import axios from "axios"
 import { toast } from "react-toastify"
+import NewReview from "../review/NewReview"
+import ReviewList from "../review/ReviewList"
 
 const RoomDetails = () => {
   const router = useRouter()
@@ -255,6 +257,12 @@ const RoomDetails = () => {
                 </Box>
               </Paper>
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <NewReview />
+          </Grid>
+          <Grid item xs={12}>
+            <ReviewList reviews={room.reviews} />
           </Grid>
         </Grid>
       </Container>
