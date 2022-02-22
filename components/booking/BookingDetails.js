@@ -6,6 +6,8 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material"
 import Image from "next/image"
@@ -14,6 +16,8 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getBookingDetails } from "../../redux/actions/booking"
+import DownloadIcon from "@mui/icons-material/Download"
+import easyinvoice from "easyinvoice"
 
 const BookingDetails = () => {
   const dispatch = useDispatch()
@@ -22,6 +26,70 @@ const BookingDetails = () => {
   useEffect(() => {
     dispatch(getBookingDetails(router.query.id))
   }, [dispatch, router.query.id])
+
+  const handleDownloadInvoice = async (booking) => {
+    console.log(booking)
+    var data = {
+      // Customize enables you to provide your own templates
+      // Please review the documentation for instructions and examples
+      customize: {
+        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
+      },
+      images: {
+        // The logo on top of your invoice
+        logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
+        // The invoice background
+        background: "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
+      },
+      // Your own data
+      sender: {
+        company: "Bookin",
+        address: "Kolkata",
+        zip: "743122",
+        city: "Kolkata",
+        country: "India",
+      },
+      // Your recipient
+      client: {
+        company: `${booking.user.name}`,
+        address: `${booking.user.email}`,
+        zip: "",
+        city: `Check In: ${new Date(booking.checkInDate).toLocaleString(
+          "en-US"
+        )}`,
+        country: `Check Out: ${new Date(booking.checkOutDate).toLocaleString(
+          "en-US"
+        )}`,
+      },
+      information: {
+        // Invoice number
+        number: `${booking._id}`,
+        // Invoice data
+        date: `${new Date(Date.now()).toLocaleString("en-US")}`,
+      },
+      // The products you would like to see on your invoice
+      // Total values are being calculated automatically
+      products: [
+        {
+          quantity: `${booking.daysOfStay}`,
+          description: `${booking.room.name}`,
+          "tax-rate": 0,
+          price: `${booking.room.pricePerNight}`,
+        },
+      ],
+      // The message you would like to display on the bottom of your invoice
+      "bottom-notice":
+        "This is auto generated invoice of your booking on Bookin",
+      // Settings to customize your invoice
+      settings: {
+        currency: "USD",
+      },
+    }
+
+    const result = await easyinvoice.createInvoice(data)
+    easyinvoice.download(`invoice_${booking._id}.pdf`, result.pdf)
+  }
+
   return (
     <>
       {bookingDetails && bookingDetails.user && (
@@ -29,9 +97,26 @@ const BookingDetails = () => {
           <Box>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography variant="h4" color="secondar.dark">
-                  Booking #{bookingDetails._id}
-                </Typography>
+                <Grid item container>
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="h4" color="secondar.dark">
+                      Booking #{bookingDetails._id}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={6} display="flex" alignItems="center">
+                    <Tooltip title="Download Invoice" color="primary" arrow>
+                      <IconButton
+                        onClick={() => handleDownloadInvoice(bookingDetails)}
+                      >
+                        <DownloadIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Typography variant="body2" color="secondar.dark">
+                      Download Invoice
+                    </Typography>
+                  </Grid>
+                </Grid>
+
                 <Divider sx={{ my: 2 }} />
                 <Box>
                   <Typography variant="h5" color="secondar.dark">
@@ -73,7 +158,8 @@ const BookingDetails = () => {
                   </p>
                 </Box>
                 <Divider sx={{ my: 2 }} />
-                <Box>
+
+                <Box mr={5}>
                   <Typography variant="h5" color="secondar.dark">
                     Payment Status
                   </Typography>
@@ -81,6 +167,7 @@ const BookingDetails = () => {
                     Paid
                   </Typography>
                 </Box>
+
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h5" color="secondar.dark">
                   Booked Room
