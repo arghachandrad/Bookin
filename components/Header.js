@@ -159,6 +159,11 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={() => handleCloseUserMenu("")}
               >
+                {user.role === "admin" && (
+                  <MenuItem onClick={() => handleCloseUserMenu("/admin/rooms")}>
+                    <Typography textAlign="center">Rooms</Typography>
+                  </MenuItem>
+                )}
                 <MenuItem onClick={() => handleCloseUserMenu("/bookings/me")}>
                   <Typography textAlign="center">My Bookings</Typography>
                 </MenuItem>

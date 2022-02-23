@@ -10,6 +10,9 @@ import {
   CHECK_REVIEW_AVAILABILITY_REQUEST,
   CHECK_REVIEW_AVAILABILITY_SUCCESS,
   CHECK_REVIEW_AVAILABILITY_FAIL,
+  ADMIN_ROOMS_REQUEST,
+  ADMIN_ROOMS_SUCCESS,
+  ADMIN_ROOMS_FAIL,
 } from "../constants/room"
 
 const initialState = {
@@ -22,6 +25,7 @@ const initialState = {
   loading: false,
   success: false,
   isReviewAvailable: false, //cannot create a review(if not booked the room)
+  adminAllRooms: [],
 }
 
 // All Rooms Reducer
@@ -85,6 +89,25 @@ export const roomReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      }
+
+    case ADMIN_ROOMS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ADMIN_ROOMS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        adminAllRooms: action.payload,
+      }
+    case ADMIN_ROOMS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        success: false,
       }
 
     case CLEAR_ERRORS:

@@ -13,6 +13,9 @@ import {
   CHECK_REVIEW_AVAILABILITY_REQUEST,
   CHECK_REVIEW_AVAILABILITY_SUCCESS,
   CHECK_REVIEW_AVAILABILITY_FAIL,
+  ADMIN_ROOMS_REQUEST,
+  ADMIN_ROOMS_SUCCESS,
+  ADMIN_ROOMS_FAIL,
 } from "../constants/room"
 
 // Get all rooms
@@ -30,6 +33,19 @@ export const getRooms =
       dispatch({ type: ALL_ROOMS_FAIL, payload: data })
     }
   }
+
+// Get all rooms - ADMIN
+export const getAdminAllRooms = () => async (dispatch) => {
+  dispatch({ type: ADMIN_ROOMS_REQUEST })
+  let link = `/admin/rooms`
+
+  const { status, data } = await CallWithOutAuth("GET", link, {})
+  if (status) {
+    dispatch({ type: ADMIN_ROOMS_SUCCESS, payload: data.rooms })
+  } else {
+    dispatch({ type: ADMIN_ROOMS_FAIL, payload: data })
+  }
+}
 
 // Get room details
 export const getRoomDetails = (id) => async (dispatch) => {
