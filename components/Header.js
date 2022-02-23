@@ -17,8 +17,6 @@ import { useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { signOut } from "next-auth/client"
 
-const pages = []
-
 const Header = () => {
   const router = useRouter()
   const { user } = useSelector((state) => state.auth)
@@ -70,42 +68,6 @@ const Header = () => {
             </Link>
           </NextLink>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <NextLink href="/" passHref>
             <Link underline="none" color="#fff" sx={{ flexGrow: 1 }}>
               <Typography
@@ -121,17 +83,6 @@ const Header = () => {
               </Typography>
             </Link>
           </NextLink>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
 
           {user ? (
             <Box sx={{ flexGrow: 0 }}>
