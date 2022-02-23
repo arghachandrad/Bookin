@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAdminAllRooms } from "../../redux/actions/room"
-import { Box, Container, IconButton } from "@mui/material"
+import { Box, Container, IconButton, Button } from "@mui/material"
 import { useRouter } from "next/router"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -63,6 +63,11 @@ const AllRooms = () => {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 5 }}>
+      <Box display="flex" justifyContent="flex-end" mb={3}>
+        <Link href="/admin/rooms/new" passHref>
+          <Button variant="contained">Create new room</Button>
+        </Link>
+      </Box>
       <div style={{ display: "flex", minHeight: 650 }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid

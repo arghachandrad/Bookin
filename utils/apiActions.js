@@ -5,6 +5,7 @@ export const CallWithOutAuth = async (method, apiUrl, body) => {
   if (method === "POST") {
     try {
       const response = await axios.post(url, body)
+      console.log(response)
       return Promise.resolve({ status: true, data: response.data })
     } catch (error) {
       return Promise.resolve({

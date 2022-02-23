@@ -13,6 +13,9 @@ import {
   ADMIN_ROOMS_REQUEST,
   ADMIN_ROOMS_SUCCESS,
   ADMIN_ROOMS_FAIL,
+  CREATE_NEW_ROOM_REQUEST,
+  CREATE_NEW_ROOM_SUCCESS,
+  CREATE_NEW_ROOM_FAIL,
 } from "../constants/room"
 
 const initialState = {
@@ -104,6 +107,28 @@ export const roomReducer = (state = initialState, action) => {
         adminAllRooms: action.payload,
       }
     case ADMIN_ROOMS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+      }
+
+    case CREATE_NEW_ROOM_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case CREATE_NEW_ROOM_SUCCESS:
+      console.log("create room reducer: ", action.payload)
+      const room = action.payload
+      const newAdminAllRooms = [...state.adminAllRooms, room]
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        adminAllRooms: newAdminAllRooms,
+      }
+    case CREATE_NEW_ROOM_FAIL:
       return {
         ...state,
         loading: false,

@@ -16,6 +16,9 @@ import {
   ADMIN_ROOMS_REQUEST,
   ADMIN_ROOMS_SUCCESS,
   ADMIN_ROOMS_FAIL,
+  CREATE_NEW_ROOM_REQUEST,
+  CREATE_NEW_ROOM_SUCCESS,
+  CREATE_NEW_ROOM_FAIL,
 } from "../constants/room"
 
 // Get all rooms
@@ -87,6 +90,20 @@ export const createNewReview = (formData) => async (dispatch) => {
   } else {
     toast.error(data)
     dispatch({ type: NEW_REVIEW_FAIL, payload: data })
+  }
+}
+
+// Create new rooms
+export const createNewRoom = (formData) => async (dispatch) => {
+  dispatch({ type: CREATE_NEW_ROOM_REQUEST })
+  const { status, data } = await CallWithOutAuth("POST", `/rooms`, formData)
+  if (status) {
+    toast.success("Room created successfully")
+    dispatch({ type: CREATE_NEW_ROOM_SUCCESS, payload: data.room })
+    dispatch(getRooms())
+  } else {
+    toast.error(data)
+    dispatch({ type: CREATE_NEW_ROOM_FAIL, payload: data })
   }
 }
 

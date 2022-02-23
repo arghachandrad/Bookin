@@ -1,11 +1,11 @@
 import { getSession } from "next-auth/client"
-import AllRooms from "../../../components/admin/AllRooms"
+import NewRoom from "../../../components/admin/NewRoom"
 import MainLayout from "../../../layout/MainLayout"
 
 const Rooms = () => {
   return (
-    <MainLayout title="All Rooms | Bookin" description="my all rooms">
-      <AllRooms />
+    <MainLayout title="Create Room | Bookin" description="create room">
+      <NewRoom />
     </MainLayout>
   )
 }
