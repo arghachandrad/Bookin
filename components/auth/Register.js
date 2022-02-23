@@ -31,13 +31,13 @@ const Register = () => {
   const { name, email, password, avatar } = formData
 
   // for reaction against change in redux
-  useEffect(() => {
-    if (success) router.push("/login")
-    if (error) {
-      toast.error(error)
-      dispatch(clearErrors())
-    }
-  }, [dispatch, success, error, router])
+  // useEffect(() => {
+  //   if (success) router.push("/login")
+  //   if (error) {
+  //     toast.error(error)
+  //     dispatch(clearErrors())
+  //   }
+  // }, [dispatch, success, error, router])
 
   const checkValidation = async () => {
     if (
