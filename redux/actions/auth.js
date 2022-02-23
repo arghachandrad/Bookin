@@ -32,8 +32,11 @@ export const registerUser = (userData) => async (dispatch) => {
     userData
   )
   if (status) {
+    toast.success("User registered successfully")
+    window.location.href = "/login"
     dispatch({ type: REGISTER_USER_SUCCESS })
   } else {
+    toast.success(data)
     dispatch({ type: REGISTER_USER_FAIL, payload: data })
   }
 }
