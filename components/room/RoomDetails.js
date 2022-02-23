@@ -150,28 +150,25 @@ const RoomDetails = () => {
           </Grid>
           <Grid item xs={12}>
             <Carousel>
-              <Box position="relative" width="100%" height="100%">
-                {/* eslint-disable-next-line */}
-                <img
-                  component="Image"
-                  src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
-                  alt={room.name}
-                  layout="fill"
-                  priority="true"
-                  objectfit="cover"
-                />
-              </Box>
-              <Box position="relative" width="100%" height="100%">
-                {/* eslint-disable-next-line */}
-                <img
-                  component="Image"
-                  src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
-                  alt={room.name}
-                  layout="fill"
-                  priority="true"
-                  objectfit="cover"
-                />
-              </Box>
+              {room.images &&
+                room.images.map((image) => (
+                  <Box
+                    key={image.url}
+                    position="relative"
+                    width="100%"
+                    height="100%"
+                  >
+                    {/* eslint-disable-next-line */}
+                    <img
+                      component="Image"
+                      src={image.url}
+                      alt={image._id}
+                      layout="fill"
+                      priority="true"
+                      objectfit="cover"
+                    />
+                  </Box>
+                ))}
             </Carousel>
           </Grid>
           <Grid item xs={12}>

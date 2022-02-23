@@ -113,6 +113,24 @@ const NewRoom = () => {
       console.log(formData)
 
       dispatch(createNewRoom(roomData))
+
+      setFormData((prev) => ({
+        ...prev,
+        name: "",
+        price: 0,
+        description: "",
+        address: "",
+        category: "King",
+        guestCapacity: 1,
+        numOfBeds: 1,
+        internet: false,
+        breakfast: false,
+        airConditioned: false,
+        petsAllowed: false,
+        roomCleaning: false,
+        images: [],
+        imagesPreview: [],
+      }))
     } else {
       toast.error("Please fill all the fields")
       setFormData((prev) => ({ ...prev, validation: true }))
