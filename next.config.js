@@ -1,7 +1,9 @@
 module.exports = {
   env: {
-    DB_URI: "mongodb://localhost:27017/bookin",
-    NEXT_LOCAL_BASE_URL: "http://localhost:3000/api",
+    // DB_URI: "mongodb://localhost:27017/bookin",
+    NEXT_LOCAL_BASE_URL: "https://bookin.vercel.app/api",
+    DB_URI:
+      "mongodb+srv://arghachandrad:ArghaDas007@cluster0.w9fog.mongodb.net/bookin?retryWrites=true&w=majority",
     CLOUDINARY_CLOUD_NAME: "dnbqxtbxe",
     CLOUDINARY_API_KEY: "123635351991264",
     CLOUDINARY_API_SECRET: "c1D1YGoKnVb1SFUJb_8BEMiDMRE",
@@ -19,8 +21,9 @@ module.exports = {
     STRIPE_SECRET_KEY:
       "sk_test_51KSNXgSHgux1UBX9VtvAuUyxmV0HVj5eES8tialLqC4UVkhAchiD9grVf2UxhbsGXf9LGqh015ztQxovZsA9TL8D00qpdrob6G",
 
-    STRIPE_WEBHOOK_SECRET:
-      "whsec_71de4da336489d2534fcd1204361e4ae1b748ca100691de490bc84a097785b6a",
+    STRIPE_WEBHOOK_SECRET: "whsec_CGroIGOtcGCCDmJkhI1wh4MydtH1pnyC",
+
+    NEXTAUTH_URL: "https://bookin.vercel.app",
   },
   images: {
     domains: ["images.unsplash.com", "res.cloudinary.com"],
