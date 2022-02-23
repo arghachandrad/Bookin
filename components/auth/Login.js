@@ -33,6 +33,7 @@ const Login = () => {
       setLoading(false)
       toast.error(response.error)
     } else {
+      toast.success("Logged in successfully")
       setLoading(false)
       router.push("/")
     }
