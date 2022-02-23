@@ -6,7 +6,7 @@ import { getAdminAllRooms } from "../../redux/actions/room"
 import { Box, Container, IconButton, Button } from "@mui/material"
 import { useRouter } from "next/router"
 import EditIcon from "@mui/icons-material/Edit"
-import DeleteIcon from "@mui/icons-material/Delete"
+import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
 
 const AllRooms = () => {
   const dispatch = useDispatch()
@@ -40,16 +40,11 @@ const AllRooms = () => {
         return (
           <Box display="flex" alignItems="center">
             <Box mr={2}>
-              <Link href={`/admin/rooms/${params.row.roomId}`} passHref>
+              <Link href={`/rooms/${params.row.id}`} passHref>
                 <a>
-                  <EditIcon />
+                  <VisibilityOutlined />
                 </a>
               </Link>
-            </Box>
-            <Box>
-              <IconButton>
-                <DeleteIcon />
-              </IconButton>
             </Box>
           </Box>
         )
