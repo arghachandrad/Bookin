@@ -193,7 +193,7 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <LoadingButton
-                loading={loading}
+                // loading={loading}
                 type="submit"
                 fullWidth
                 variant="contained"
