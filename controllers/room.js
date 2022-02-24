@@ -39,8 +39,6 @@ const newRoom = catchAsyncErrors(async (req, res) => {
   for (let i = 0; i < images.length; i++) {
     const result = await cloudinary.v2.uploader.upload(images[i], {
       folder: "bookin/rooms",
-      width: "150",
-      crop: "scale",
     })
 
     imagesLinks.push({
